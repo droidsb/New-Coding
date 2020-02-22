@@ -7,7 +7,7 @@ function Box(x, y, w, h, options) {
   this.isOffScreen =function(){
 	 var pos=this.body.position;
 	 
-	 return (pos.y>height+100);
+	 return (pos.y+cam.y>height+100);
   
   }
   
@@ -21,7 +21,7 @@ function Box(x, y, w, h, options) {
     var pos = this.body.position;
     var angle = this.body.angle;
     push();
-    translate(pos.x, pos.y);
+    translate(pos.x+cam.x, pos.y+cam.y);
     rotate(angle);
     rectMode(CENTER);
     strokeWeight(1);

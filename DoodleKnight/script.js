@@ -11,6 +11,10 @@ var ground;
 
 var boxes=[];
 
+var cam={x:0, y:0, speed:2};
+
+var keys=[];
+
 function setup() {
 
 	
@@ -29,7 +33,7 @@ world=engine.world;
 
 //ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
-boxes.push(new Box(400, 610, 410,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(35)}));
+boxes.push(new Box(400, 610, 410,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0)}));
 
 // add all of the bodies to the world
 //World.add(world, ground);
@@ -44,7 +48,7 @@ boxes.push(new Box(400, 610, 410,60, {friction: 0.3,restitution: 0.6, isStatic: 
 
 function mouseDragged(){
 
-	boxes.push(new Box(mouseX, mouseY, 20,20, {friction: 0.3,restitution: 0.6}));
+	boxes.push(new Box(mouseX-cam.x, mouseY-cam.y, 20,20, {friction: 0.3,restitution: 0.6}));
 	
 	
 
@@ -76,6 +80,45 @@ function draw() {
  }
   //console.log(world.bodies.length);
   
+  text(cam.y,200,200);
+  
+  if(keys[38]){
+  
+  	cam.y=cam.y-cam.speed;
+  
+  }
+  
+  if(keys[40]){
+  
+  	cam.y=cam.y+cam.speed;
+  
+  }
+  
+  if(keys[37]){
+  
+  	cam.x=cam.x-cam.speed;
+  
+  }
+  
+  if(keys[39]){
+  
+  	cam.x=cam.x+cam.speed;
+  
+  }
   
   
+}
+
+function keyPressed(){
+
+
+	keys[keyCode]=true;
+
+}
+
+function keyReleased(){
+
+
+	keys[keyCode]=false;
+
 }
