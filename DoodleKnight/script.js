@@ -203,12 +203,12 @@ Events.on(engine, 'collisionStart', collision);
 
 //ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
-boxes.push(new Box(400, 610, 1000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}}));
+boxes.push(new Box(400, 610, 1000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
 
 boxes.push(new Box(400, 550, 30,30, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Player"}));
 
 
-boxes.push(new Box(550, 550, 30,50, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Mob", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}}));
+boxes.push(new Box(500, 550, 30,50, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Mob", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}, label: "default"}, "default"));
 
 
 
@@ -219,15 +219,51 @@ boxes.push(new Box(550, 550, 30,50, {friction: 0.3,restitution: 0.6, isStatic: f
 // run the engine
 //Engine.run(engine); 
 
-for(var i=0; i<20; i++){
+function newCrate(x,y){
 
 
-//boxes.push(new Box(400+i/10,0-i*10, 40,40, {friction: 0.3,restitution: 0.6}, "crate"));
+boxes.push(new Box(x, y, 40,40, {friction: 0.3,restitution: 0.6, isStatic: false, collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}, label: "Crate"}, "default"));
 
 }
+
+
+newCrate(600,550);
+
+newCrate(680,550);
+
+newCrate(600,520);
+
+newCrate(680,520);
+
+newCrate(620,480);
+
+newCrate(658,480);
+
+newCrate(582,480);
+
+newCrate(700,480);
+
+newCrate(610,440);
+
+newCrate(670,440);
+
+newCrate(640,400);
+
+newCrate(640,360);
+
+
+newCrate(720,550);
+newCrate(720,520);
+
+newCrate(560,550);
+newCrate(560,520);
+
+
   
   
 }
+
+
 
 
 

@@ -64,13 +64,15 @@ if(this.body.label==="Crate"){
   stroke(80, 41, 0)
   rect(0,0,this.w,this.h);
   
-  
+  push();
   rotate(radians(45));
   rect(0,0,this.w/10,sqrt(pow(this.h,2)+pow(this.w,2)))
   
   rotate(radians(90));
   
   rect(0,0,this.w/10,sqrt(pow(this.h,2)+pow(this.w,2)))
+  
+  pop();
   
   }
   
@@ -89,7 +91,18 @@ if(this.body.label==="Crate"){
   	}
   	//console.log(this.body.velocity.x)
   	
+  	fill(127)
+  	stroke(255)
+  	rect(0,0,this.w,this.h);
+  	
   
+  }
+  
+   
+  if(this.body.label==="default"){
+  	fill(127)
+  	stroke(255)
+  	rect(0,0,this.w,this.h);
   }
   
   
@@ -150,12 +163,7 @@ if(this.body.label==="Crate"){
   	
   
   }
-  
-  else{
-  	fill(127)
-  	stroke(255)
-  	rect(0,0,this.w,this.h);
-  }
+ 
   
     for(var p=0; p<staticArrows.length; p++){
     
