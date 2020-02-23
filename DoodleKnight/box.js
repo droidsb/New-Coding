@@ -106,8 +106,8 @@ if(this.body.label==="Crate"){
 		rect(0,0,30,3);
 		
 		
-		fill(255)
-		stroke(255)
+		fill(230)
+		stroke(230)
 		push()
 		
 		translate(-15,-2)
@@ -177,8 +177,8 @@ if(this.body.label==="Crate"){
 		rect(0,0,30,3);
 		
 		
-		fill(255)
-		stroke(255)
+		fill(230)
+		stroke(230)
 		push()
 		
 		translate(-15,-2)
