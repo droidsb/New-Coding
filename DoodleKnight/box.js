@@ -74,11 +74,7 @@ if(this.body.label==="Crate"){
   
   }
   
-  else{
-  	fill(127)
-  	stroke(255)
-  	rect(0,0,this.w,this.h);
-  }
+  
   
   if(this.body.label==="Player"){
   
@@ -103,17 +99,64 @@ if(this.body.label==="Crate"){
 
    
    
-   
-   var maxspeed=0.2;
+    	stroke(68,48,34)
+    	
+    	fill(85,60,42)
+		
+		rect(0,0,30,3);
+		
+		
+		fill(255)
+		stroke(255)
+		push()
+		
+		translate(-15,-2)
+		
+		rotate(radians(20))
+    	rect(0,0,10,3)
+    	pop();
+    	
+    	push()
+		
+		translate(-15,2)
+		
+		rotate(radians(-20))
+    	rect(0,0,10,3)
+    	pop();
+		
+		scale(0.8)
+
+		
+		translate(15,6)
+		
+		stroke(68,48,34)
+    	
+    	fill(85,60,42)
+    	
+    	rotate(radians(-90));
+    	
+    	triangle(0, 0, 6, 15, 12, 0)
+    	
+    	
+    	
+    
   
-  if(this.body.velocity.x>maxspeed){
+  	
+  
   	Matter.Body.setAngle(this.body,-atan2(this.body.velocity.x,this.body.velocity.y)+radians(90))
   	
-  	}
+
   	
   	
   
   }
+  
+  else{
+  	fill(127)
+  	stroke(255)
+  	rect(0,0,this.w,this.h);
+  }
+  
     for(var p=0; p<staticArrows.length; p++){
     
     if(this.body.id===staticArrows[p].id){
@@ -127,12 +170,52 @@ if(this.body.label==="Crate"){
     	
     	//console.log(degrees(staticArrows[p].angle))
     	
-    	rect(0,0,40,5);
+    	stroke(68,48,34)
+    	
+    	fill(85,60,42)
+		
+		rect(0,0,30,3);
+		
+		
+		fill(255)
+		stroke(255)
+		push()
+		
+		translate(-15,-2)
+		
+		rotate(radians(20))
+    	rect(0,0,10,3)
+    	pop();
+    	
+    	push()
+		
+		translate(-15,2)
+		
+		rotate(radians(-20))
+    	rect(0,0,10,3)
+    	pop();
+		
+		scale(0.8)
+
+		
+		translate(15,6)
+		
+		stroke(68,48,34)
+    	
+    	fill(85,60,42)
+    	
+    	rotate(radians(-90));
+    	
+    	triangle(0, 0, 6, 15, 12, 0)
+    	
+    	
     	
     	pop();
     	
     
     }
+    
+    
     
     
     }

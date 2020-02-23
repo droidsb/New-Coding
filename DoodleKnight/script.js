@@ -161,7 +161,7 @@ staticArrows.push({id:bodyA.id, xOff: bodyA.position.x-bodyB.position.x, yOff: b
 		
 		for(var p=0; p<boxes.length; p++){
 		
-		console.log(boxes[p].id())
+		//console.log(boxes[p].id())
 		
 		if(boxes[p].id()===bodyB.id){
 		
