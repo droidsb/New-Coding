@@ -203,7 +203,7 @@ Events.on(engine, 'collisionStart', collision);
 
 //ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
-boxes.push(new Box(400, 610, 1000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
+boxes.push(new Box(-100, 610, 10000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
 
 boxes.push(new Box(400, 550, 30,30, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Player"}));
 
@@ -276,15 +276,33 @@ function mouseDragged(){
 }
 var id1;
 
+var boxl=10;
+
 function mousePressed(){
 
 id1=bowDraw.play();
 
 
 
+
+
+
+
+
+
 }
 
+function angleBetween(p1,p2){
+
+
+return Math.atan2(p2.y-p1.y, p2.x-p1.x);
+
+}
+
+
 function mouseReleased(){
+
+
 
 bowDraw.fade(1, 0, 500, id1);
 
@@ -305,9 +323,9 @@ for(var i=0; i<boxes.length; i++){
 
 
 
-var xd=mouseX-boxpos.x;
+var xd=(mouseX-cam.x)-boxpos.x;
 
-var xy= mouseY-boxpos.y;
+var xy= (mouseY-cam.y)-boxpos.y;
 
 
 
@@ -315,22 +333,21 @@ var xy= mouseY-boxpos.y;
 //var angle=calcAngle(abs(xd), abs(xy));
 //console.log(degrees(angle))
 
-function angleBetween(p1,p2){
-
-
-return Math.atan2(p2.y-p1.y, p2.x-p1.x);
-
-}
 
 
 
-angle=angleBetween({x:mouseX, y:mouseY},{x:boxpos.x, y:boxpos.y});
+
+angle=angleBetween({x:mouseX-cam.x, y:mouseY-cam.y},{x:boxpos.x, y:boxpos.y});
 
 //angle=angle+radians(90);
 
-var l=sqrt(pow(xd,2)+pow(xy,2))
+//var l=sqrt(pow(xd,2)+pow(xy,2))
+
+var l=boxl*5
 
 var tv={x:-(l*cos(angle))/30000, y:-(l*sin(angle))/30000}
+
+boxl=0;
 
 /*if(xd<0){
 
@@ -355,23 +372,25 @@ function draw() {
   
   noStroke();
   
+  for(var i=0; i<boxes.length; i++){
+
+	if(boxes[i].type()==="Player"){
+		
+		boxpos=boxes[i].position();
+	
+	}
+
+}
+
+cam.x=-boxpos.x+width/2;
+
+cam.y=-boxpos.y+height-200;
+  
+  
   
  Engine.update(engine);
  rectMode(CENTER)
- rect(200,200,10,10)
- 
-		push();
- 		
- 		translate(200,180)
- 		
- 		rotate(radians(90))
- 		
- 		//translate(0,-20)
- 		
- 		//rectMode(CENTER);
- 		rect(-40,0, 40,5)
- 	
- 	pop();
+
  	
  
  
@@ -390,13 +409,13 @@ function draw() {
  	if(boxes[i].isOffScreen()){
  			
  			
- 		boxes[i].removeFromWorld();
+ 		//boxes[i].removeFromWorld();
  			
  		//World.remove(world, boxes[i])
  	
- 		boxes.splice(i,1);
+ 		//boxes.splice(i,1);
  		
- 		i--;
+ 		//i--;
  	
  	}
  
@@ -413,7 +432,64 @@ function draw() {
   //console.log(world.bodies.length);
   
  // text(player.x,200,200);
-  
+ 
+ fill(255)
+
+
+
+if(mouseIsPressed){
+if(boxl<100){
+boxl=boxl+1;
+
+}
+
+rectMode(CORNER)
+
+rect(40, 40, boxl, 10)
+
+
+}
+
+rectMode(CENTER);
+
+push();
+
+var bowangle=angleBetween({x:mouseX-cam.x, y:mouseY-cam.y},{x:boxpos.x, y:boxpos.y});
+
+translate(boxpos.x+cam.x,boxpos.y+cam.y)
+
+rotate(bowangle+radians(180))
+
+var bowl=11;
+
+var bowx=20;
+
+push()
+fill(255)
+noStroke()
+translate(bowx-8,0)
+rect(0,0,2,40)
+
+pop()
+
+stroke(68,48,34)
+    	
+    	fill(85,60,42)
+
+push()
+translate(bowx,-bowl)
+rotate(radians(-35))
+rect(0,0,5,30)
+pop()
+
+push()
+translate(bowx,bowl)
+rotate(radians(35))
+rect(0,0,5,30)
+pop()
+
+
+pop();
   
   
   if(keys[38]){
