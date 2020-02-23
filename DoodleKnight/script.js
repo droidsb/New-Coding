@@ -71,6 +71,8 @@ function collision(event){
 	
 	}
 	
+	
+	
 	//console.log(bodyB);
 	
 	//console.log(bodyB.label);
@@ -117,7 +119,7 @@ constraints.push(new Cons(options2));
 
 */
 
-staticArrows.push({id:bodyA.id, xOff: bodyA.position.x-bodyB.position.x, yOff: bodyA.position.y-bodyB.position.y, oldAngle: bodyA.angle ,l:40, h:5, angle: bodyB.angle})
+staticArrows.push({id:bodyA.id, xOff: bodyA.position.x-bodyB.position.x, yOff: bodyA.position.y-bodyB.position.y, oldAngle: bodyA.angle, angle: bodyB.angle})
 
 
 
@@ -153,6 +155,34 @@ staticArrows.push({id:bodyA.id, xOff: bodyA.position.x-bodyB.position.x, yOff: b
 		
 		
 		//bodyA.parts=[bodyA, Bodies.rectangle(0,0,5,40, {category:bodyA.category, mask:bodyA.mask})];
+		
+		
+		
+		
+		for(var p=0; p<boxes.length; p++){
+		
+		console.log(boxes[p].id())
+		
+		if(boxes[p].id()===bodyB.id){
+		
+		//console.log("check2")
+		
+		boxes[p].removeFromWorld();
+ 			
+ 		
+ 	
+ 		boxes.splice(p,1);
+		
+		
+		}
+		
+		}
+		
+		//boxes[b].removeFromWorld();
+ 			
+ 		
+ 	
+ 		//boxes.splice(b,1);
 			
 	}
 	
@@ -280,7 +310,7 @@ if(xy>0){
 
 //console.log(degrees(angle)-90)
 
-boxes.push(new Box(boxpos.x,boxpos.y, 5,40, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x, y:tv.y}, angle:radians(90), label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
+boxes.push(new Box(boxpos.x,boxpos.y, 40,5, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x, y:tv.y}, label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
 
 }
 

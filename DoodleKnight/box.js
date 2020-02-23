@@ -107,7 +107,7 @@ if(this.body.label==="Crate"){
    var maxspeed=0.2;
   
   if(this.body.velocity.x>maxspeed){
-  	Matter.Body.setAngle(this.body,-atan2(this.body.velocity.x,this.body.velocity.y))
+  	Matter.Body.setAngle(this.body,-atan2(this.body.velocity.x,this.body.velocity.y)+radians(90))
   	
   	}
   	
@@ -117,10 +117,19 @@ if(this.body.label==="Crate"){
     for(var p=0; p<staticArrows.length; p++){
     
     if(this.body.id===staticArrows[p].id){
+    	push();
     	
     	rotate(-staticArrows[p].oldAngle)
     	
-    	rect(-staticArrows[p].xOff,-staticArrows[p].yOff,40,5);
+    	translate(-staticArrows[p].xOff,-staticArrows[p].yOff)
+    	
+    	rotate(staticArrows[p].angle)
+    	
+    	//console.log(degrees(staticArrows[p].angle))
+    	
+    	rect(0,0,40,5);
+    	
+    	pop();
     	
     
     }
