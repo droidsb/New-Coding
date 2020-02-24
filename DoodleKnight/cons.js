@@ -31,12 +31,12 @@ var bPos=this.constraint.bodyB.position;
   	push();
     //translate(this.constraint.pointA.x+cam.x, this.constraint.pointA.y+cam.y);
     
-    console.log(this.constraint);
+   // console.log(this.constraint);
     
     
     
    translate(aPos.x+cam.x, aPos.y+cam.y);
-  	line(this.constraint.pointA.x,this.constraint.pointA.y,0,0)
+  	//line(this.constraint.pointA.x,this.constraint.pointA.y,this.constraint.pointB.x,this.constraint.pointB.y)
   	pop();
   
   }

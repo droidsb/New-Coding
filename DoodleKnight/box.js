@@ -27,6 +27,22 @@ function Box(x, y, w, h, options) {
   
   }
   
+  this.label = function() {
+  
+  
+  
+  	return this.body.label;
+  
+  }
+  
+  this.velocity = function() {
+  
+  
+  
+  	return this.body.velocity;
+  
+  }
+  
   this.angle = function() {
   
   
@@ -76,24 +92,28 @@ if(this.body.label==="Crate"){
   
   }
   
+    if(this.body.label==="PlayerHead"){
   
-  
-  if(this.body.label==="Player"){
-  
-  	//console.log(this.body);
-  	if(abs(this.body.velocity.x)<8){
-  	this.body.force.x=player.xv;
-  	}
+ 
   	
-  	if(abs(this.body.velocity.y)<8){
-  	this.body.force.y=player.yv;
+  //	fill(127)
+  	//stroke(255)
+  	//rect(0,0,this.w,this.h);
   	
-  	}
+  
+  }
+  
+  if(this.body.label==="PlayerNeck"){
+  
+  //console.log(boxpos.x)
+  
+  	this.body.position.x=boxpos.x
+  	this.body.position.y=boxpos.y-40
   	//console.log(this.body.velocity.x)
   	
-  	fill(127)
-  	stroke(255)
-  	rect(0,0,this.w,this.h);
+  //	fill(127)
+  	//stroke(255)
+  	//rect(0,0,this.w,this.h);
   	
   
   }

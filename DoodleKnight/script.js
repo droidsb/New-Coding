@@ -23,6 +23,100 @@ var player={xv:0, yv:0, speed:0.005}
 
 var staticArrows=[];
 
+function knightHeadRight(x,y,s,a){
+
+push();
+
+
+
+translate(x,y)
+
+scale(s)
+
+rotate(a)
+
+noStroke()
+
+fill(100)
+
+beginShape();
+vertex(0,0);
+vertex(80,0);
+
+vertex(62,-80);
+vertex(5,-80);
+
+
+endShape();
+
+fill(0)
+rect(55,-45,42,8,4)
+
+ellipse(50,-25,5,5)
+
+ellipse(50,-15,5,5)
+
+ellipse(50,-5,5,5)
+
+ellipse(60,-25,5,5)
+
+ellipse(60,-15,5,5)
+
+ellipse(60,-5,5,5)
+
+ellipse(70,-25,5,5)
+
+ellipse(70,-15,5,5)
+
+ellipse(70,-5,5,5)
+
+push()
+
+translate(10,-95)
+
+rotate(radians(-35))
+
+fill(255)
+
+ellipse(0,20,20,5)
+ellipse(0,12,30,8)
+ellipse(0,2,35,10)
+ellipse(0,-9,30,10)
+ellipse(0,-20,25,8)
+ellipse(0,-28,15,4)
+
+
+fill(0)
+
+rect(0,0,3,60,4)
+
+
+
+pop()
+
+pop()
+
+
+
+}
+
+function knightBody(x,y,s){
+
+	push()
+	translate(x,y)
+	scale(s)
+	
+	fill(80)
+	
+	rect(35,80,100,130,10)
+	
+	
+	rect(35,10,40,60)
+	
+	pop()
+
+}
+
  var defaultCategory = 0x0001,
         ArrowCategory = 0x0002,
         PlayerCategory = 0x0004,
@@ -51,8 +145,8 @@ function setup() {
 
 	
 
-  createCanvas(1200, 800);
-  
+  createCanvas(windowWidth, windowHeight);
+  //fullscreen()
   
   
 // create an engine
@@ -205,7 +299,96 @@ Events.on(engine, 'collisionStart', collision);
 
 boxes.push(new Box(-100, 610, 10000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
 
-boxes.push(new Box(400, 550, 30,30, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Player"}));
+boxes.push(new Circle(400, 550, 30, {friction: 1,restitution: 0.1, isStatic: false, angle:radians(0), label:"Player"}));
+
+boxes.push(new Box(400, 400, 20,10, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), label:"PlayerNeck", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}}, "default"));
+
+boxes.push(new Box(400, 380, 30,30, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"PlayerHead", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}}, "default"));
+
+var Neck;
+var Head;
+
+for(var i=0; i<boxes.length; i++){
+
+if(boxes[i].label()==="PlayerNeck"){
+	console.log("Found1")
+	Neck=boxes[i].body;
+
+
+}
+
+if(boxes[i].label()==="PlayerHead"){
+	console.log("Found2")
+	Head=boxes[i].body;
+
+
+}
+
+}
+
+/*var options1={
+	bodyA: Neck,
+	bodyB: Head,
+	length: 10,
+	stiffness: 0.1,
+	pointA:{x:Head.position.x-Neck.position.x-10, y:Head.position.y-Neck.position.y},
+	pointB:{x:-15,y:0}
+
+}
+
+constraints.push(new Cons(options1));
+
+var options2={
+	bodyA: Neck,
+	bodyB: Head,
+	length: 10,
+	stiffness: 0.1,
+	pointA:{x:Head.position.x-Neck.position.x+10, y:Head.position.y-Neck.position.y},
+	pointB:{x:15,y:0}
+
+}
+
+constraints.push(new Cons(options2));*/
+
+var options3={
+	bodyA: Neck,
+	bodyB: Head,
+	length: 8,
+	stiffness: 0.2,
+	pointA:{x:Head.position.x-Neck.position.x+8, y:Head.position.y-Neck.position.y+8},
+	pointB:{x:18,y:0}
+
+}
+
+constraints.push(new Cons(options3));
+
+var options4={
+	bodyA: Neck,
+	bodyB: Head,
+	length: 8,
+	stiffness: 0.2,
+	pointA:{x:Head.position.x-Neck.position.x-8, y:Head.position.y-Neck.position.y+8},
+	pointB:{x:-18,y:0}
+
+}
+
+constraints.push(new Cons(options4));
+
+
+/*var options2={
+
+	bodyA: Neck,
+	bodyB: Head,
+	length: 0,
+	stiffness: 1,
+	pointA:{x:Head.position.x-Neck.position.x, y:Head.position.y-Neck.position.y},
+	pointB:{x:10,y:0}
+	
+	
+
+}
+
+constraints.push(new Cons(options2));*/
 
 
 boxes.push(new Box(500, 550, 30,50, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"Mob", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}, label: "default"}, "default"));
@@ -264,7 +447,9 @@ newCrate(560,520);
 }
 
 
-
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
 
 function mouseDragged(){
@@ -310,11 +495,15 @@ arrowShoot.play();
 
 var boxpos={};
 
+var boxvel={};
+
 for(var i=0; i<boxes.length; i++){
 
 	if(boxes[i].type()==="Player"){
 		
 		boxpos=boxes[i].position();
+		
+		boxvel=boxes[i].velocity();
 	
 	}
 
@@ -363,12 +552,22 @@ if(xy>0){
 
 //console.log(degrees(angle)-90)
 
-boxes.push(new Box(boxpos.x,boxpos.y, 40,5, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x, y:tv.y}, label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
+//console.log(tv.x)
+
+//console.log(tv.x+(boxvel.x/1000))
+
+var addspeed=2500;
+
+boxes.push(new Box(boxpos.x,boxpos.y, 40,5, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x+(boxvel.x/addspeed), y:tv.y+(boxvel.y/addspeed)}, label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
 
 }
 
+var framer=0;
+
+var framec=0;
+
 function draw() {
-  background(150);
+  background(135, 206, 235);
   
   noStroke();
   
@@ -390,6 +589,20 @@ cam.y=-boxpos.y+height-200;
   
  Engine.update(engine);
  rectMode(CENTER)
+ 
+ var headpos;
+ 
+ var heada;
+ 
+ for(var i=0; i<boxes.length; i++){
+
+	if(boxes[i].type()==="PlayerHead"){
+		
+		headpos=boxes[i].position();
+		heada=boxes[i].angle();
+	}
+
+}
 
  	
  
@@ -427,7 +640,9 @@ cam.y=-boxpos.y+height-200;
  
  }
  
- 
+ knightBody(boxpos.x+cam.x-13, boxpos.y+cam.y-40, 0.4)
+
+knightHeadRight(headpos.x+cam.x-13, headpos.y+cam.y+15, 0.4, heada)
  
   //console.log(world.bodies.length);
   
@@ -490,6 +705,29 @@ pop()
 
 
 pop();
+
+
+
+
+
+
+
+
+fill(0)
+
+if(framec===10){
+
+
+
+framer=frameRate();
+
+framec=0;
+
+}
+text(round(framer), 20,40);
+
+
+framec=framec+1;
   
   
   if(keys[38]){
