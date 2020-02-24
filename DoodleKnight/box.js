@@ -94,7 +94,8 @@ if(this.body.label==="Crate"){
   
     if(this.body.label==="PlayerHead"){
   
- 
+ 	this.body.position.x=boxpos.x
+ 	this.body.position.y=boxpos.y-50
   	
   //	fill(127)
   	//stroke(255)

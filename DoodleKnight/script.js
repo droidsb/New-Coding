@@ -23,13 +23,15 @@ var player={xv:0, yv:0, speed:0.005}
 
 var staticArrows=[];
 
-function knightHeadRight(x,y,s,a){
+var pGround=false;
+
+function knightHeadLeft(x,y,s,a){
 
 push();
 
 
 
-translate(x,y)
+translate(x-3,y)
 
 scale(s)
 
@@ -38,6 +40,88 @@ rotate(a)
 noStroke()
 
 fill(100)
+
+translate(-20,0)
+
+
+beginShape();
+vertex(-10,0);
+vertex(70,0);
+
+vertex(62,-80);
+vertex(5,-80);
+
+
+endShape();
+
+fill(0)
+rect(15,-45,42,8,4)
+
+ellipse(0,-25,5,5)
+
+ellipse(0,-15,5,5)
+
+ellipse(00,-5,5,5)
+
+ellipse(10,-25,5,5)
+
+ellipse(10,-15,5,5)
+
+ellipse(10,-5,5,5)
+
+ellipse(20,-25,5,5)
+
+ellipse(20,-15,5,5)
+
+ellipse(20,-5,5,5)
+
+push()
+
+translate(60,-95)
+
+rotate(radians(35))
+
+fill(255)
+
+ellipse(0,20,20,5)
+ellipse(0,12,30,8)
+ellipse(0,2,35,10)
+ellipse(0,-9,30,10)
+ellipse(0,-20,25,8)
+ellipse(0,-28,15,4)
+
+
+fill(0)
+
+rect(0,0,3,60,4)
+
+
+
+pop()
+
+pop()
+
+
+
+}
+
+function knightHeadRight(x,y,s,a){
+
+push();
+
+
+
+translate(x-8,y)
+
+scale(s)
+
+rotate(a)
+
+noStroke()
+
+fill(100)
+
+translate(-20,0)
 
 beginShape();
 vertex(0,0);
@@ -100,6 +184,7 @@ pop()
 
 }
 
+
 function knightBody(x,y,s){
 
 	push()
@@ -153,7 +238,7 @@ function setup() {
 engine = Engine.create();
 world=engine.world;
 
-function collision(event){
+function collisionA(event){
 
 	var pairs=event.pairs;
 	
@@ -164,6 +249,79 @@ function collision(event){
 	var bodyB=pairs[i].bodyB;
 	
 	}
+	
+	if(bodyA.label==="Player"){
+
+pGround=true;
+
+
+}
+
+if(bodyB.label==="Player"){
+
+pGround=true;
+
+
+}
+
+}
+
+function collisionE(event){
+
+	var pairs=event.pairs;
+	
+	for(var i=0; i<pairs.length; i++){
+	
+	var bodyA=pairs[i].bodyA;
+	
+	var bodyB=pairs[i].bodyB;
+	
+	}
+	
+	if(bodyA.label==="Player"){
+
+pGround=false;
+
+
+}
+
+if(bodyB.label==="Player"){
+
+pGround=false;
+
+
+}
+
+}
+
+function collision(event){
+
+
+
+
+	var pairs=event.pairs;
+	
+	for(var i=0; i<pairs.length; i++){
+	
+	var bodyA=pairs[i].bodyA;
+	
+	var bodyB=pairs[i].bodyB;
+	
+	}
+	
+	if(bodyA.label==="Player"){
+
+pGround=true;
+
+
+}
+
+if(bodyB.label==="Player"){
+
+pGround=true;
+
+
+}
 	
 	
 	
@@ -287,23 +445,27 @@ staticArrows.push({id:bodyA.id, xOff: bodyA.position.x-bodyB.position.x, yOff: b
 
 Events.on(engine, 'collisionStart', collision);
 
+Events.on(engine, 'collisionActive', collisionA);
+
+Events.on(engine, 'collisionEnd', collisionE);
+
 
 
 
 
 
 // create two boxes and a ground
-
+ var pY=-100;
 
 //ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
-boxes.push(new Box(-100, 610, 10000,60, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
+boxes.push(new Box(-100, 1080, 10000,1000, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), collisionFilter: {mask: GroundCategory | defaultCategory | ArrowCategory, category: GroundCategory}, label: "default"}, "default"));
 
-boxes.push(new Circle(400, 550, 30, {friction: 1,restitution: 0.1, isStatic: false, angle:radians(0), label:"Player"}));
+boxes.push(new Circle(400, 550+pY, 30, {friction: 1,restitution: 0.1, isStatic: false, angle:radians(0), label:"Player"}));
 
-boxes.push(new Box(400, 400, 20,10, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), label:"PlayerNeck", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}}, "default"));
+boxes.push(new Box(400, 500+pY, 20,10, {friction: 0.3,restitution: 0.6, isStatic: true, angle:radians(0), label:"PlayerNeck", collisionFilter :{mask: PlayerCategory, category: PlayerCategory}}, "default"));
 
-boxes.push(new Box(400, 380, 30,30, {friction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"PlayerHead", collisionFilter :{mask: GroundCategory | defaultCategory | ArrowCategory | MobCategory, category: MobCategory}}, "default"));
+boxes.push(new Box(400, 480+pY, 30,30, {friction: 0.3, airFriction: 0.3,restitution: 0.6, isStatic: false, angle:radians(0), label:"PlayerHead", collisionFilter :{mask: PlayerCategory, category: PlayerCategory}}, "default"));
 
 var Neck;
 var Head;
@@ -558,7 +720,7 @@ if(xy>0){
 
 var addspeed=2500;
 
-boxes.push(new Box(boxpos.x,boxpos.y, 40,5, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x+(boxvel.x/addspeed), y:tv.y+(boxvel.y/addspeed)}, label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
+boxes.push(new Box(boxpos.x+20,boxpos.y-20, 40,5, {friction: 0.3, frictionAir: 0.01,restitution: 0.6, force: {x:tv.x+(boxvel.x/addspeed), y:tv.y+(boxvel.y/addspeed)}, label:"FlyingArrow",collisionFilter: {mask: GroundCategory | ArrowCategory | MobCategory, category: ArrowCategory}}));
 
 }
 
@@ -577,6 +739,7 @@ function draw() {
 		
 		boxpos=boxes[i].position();
 	
+		boxvel=boxes[i].velocity()
 	}
 
 }
@@ -641,8 +804,19 @@ cam.y=-boxpos.y+height-200;
  }
  
  knightBody(boxpos.x+cam.x-13, boxpos.y+cam.y-40, 0.4)
+ 
+ if(boxvel.x>=0){
 
-knightHeadRight(headpos.x+cam.x-13, headpos.y+cam.y+15, 0.4, heada)
+knightHeadRight(headpos.x+cam.x, headpos.y+cam.y+15, 0.4, heada)
+
+}
+
+
+ if(boxvel.x<0){
+
+knightHeadLeft(headpos.x+cam.x, headpos.y+cam.y+15, 0.4, heada)
+
+}
  
   //console.log(world.bodies.length);
   
@@ -671,7 +845,7 @@ push();
 
 var bowangle=angleBetween({x:mouseX-cam.x, y:mouseY-cam.y},{x:boxpos.x, y:boxpos.y});
 
-translate(boxpos.x+cam.x,boxpos.y+cam.y)
+translate(boxpos.x+cam.x+20,boxpos.y+cam.y-20)
 
 rotate(bowangle+radians(180))
 
@@ -709,8 +883,8 @@ pop();
 
 
 
-
-
+//console.log(boxes.length)
+//console.log(world.bodies.length)
 
 
 fill(0)
@@ -754,14 +928,25 @@ framec=framec+1;
   
   }
   
-  
+  //dtext(boxpos.y,300,300)
   
   
   if(keys[87]){
   
-  	player.yv=-player.speed;
+  if(pGround===true){
+  
+  	player.yv=-0.05;
+  	
+  	}
   
   }
+  
+  if(pGround===false){
+  player.yv=0;
+  
+  }
+  
+  //pGround=false
   
   if(keys[83]){
   
